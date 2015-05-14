@@ -16,7 +16,7 @@ end;
 
 % Divide by smallest(or lagest) number to avoid exponential of huge negative
 % number which turns out to be 0
-k = max(max(pl)); % or k = max(Pl,2) to be even more precise
+k = mean(mean(pl)); % or k = max(Pl,2) to be even more precise
 % Center proba
 pl = pl - k;
 % log(k) * log p(xi)

@@ -8,23 +8,17 @@ model_i_1 = cell(size(model_i));
 % spl : probal(model = i) for each i
 spl = sum(pl);
 
-mod = 1;
-for i = 1:m
-    if model_i{i, 1} > model_i{mod, 1}
-        mod = i;
-    end
-end
-
 for i = 1:m
     model_i_1{i, 1} = spl(i) / n;
     % pl 60000 x 12
     % pl(:, i) => 60000 x 1 i-e all p(model = i | x_i)
     % multiply each x_i by p(x_i E model_i) (over each mu_i)
     model_i_1{i, 2} = sum(repmat(pl(:, i)', d, 1) .* data, 2) / spl(i);
-
     ctr = data - repmat(model_i_1{i, 2}, 1, n);
-    k = repmat(pl(:, i)', 2, 1) .* ctr;
+    k = repmat(pl(:, i)', d, 1) .* ctr;
     model_i_1{i, 3} = k * ctr' / spl(i);
+    % TODO
+    model_i_1{i, 3} = eye(d);
 
     %if model_i_1{i, 1} <= 1 / (100 * m)
     %    alpha = model_i{mod, 1};
@@ -36,4 +30,18 @@ for i = 1:m
     %model_i_1{i, 2}(ind) = max_mu;
     %ind = find(model_i_1{i, 2} <= min_mu);
     %model_i_1{i, 2}(ind) = min_mu;
+
+mod = 1;
+for i = 1:m
+    if model_i_1{i, 1} > model_i{mod, 1}
+        mod = i;
+    end
+end
+
+for i = 1:m
+    if det(model_i_1{i, 3}) < 1e-6
+        model_i_1{i, 2} = (model_i_1{mod, 2} + model_i_1{i, 2}) / 2;
+    end
+end
+
 end
