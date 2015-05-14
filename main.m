@@ -5,10 +5,10 @@ TEST = TEST(:, :)';
 LABEL_TEST = LABEL_TEST;
 
 % Number models
-nm = 8;
+nm = 1;
 % Number of classes
-nc = 10;
-nb_iter = 8;
+nc = 2;
+nb_iter = 4;
 models = cell(nc, 1);
 for num = 1:nc
 disp(sprintf('Computing class %f', num));
@@ -27,14 +27,16 @@ for i = 1:nm
     % The weight of this model
     model{i, 1} = 1 / nm;
     % The mu params of this model
-    model{i, 2} = rand(n, 1);
+    model{i, 2} = mean(train, 2);
+    imshow(reshape(mean(train, 2), 28, 28));
+    % model{i, 2} = rand(n, 1);
 end
 
 for i = 1:nb_iter
     if i == nb_iter
     figure;
         for idx = 1:nm
-            subplot(2, nm / 2, idx);
+            subplot(4, nm / 4, idx);
             imshow(reshape(model{idx, 2}, 28, 28));
             title(sprintf('Weight %f', model{idx, 1}));
         end
