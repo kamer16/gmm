@@ -1,7 +1,7 @@
 nm = 5;
 data = initGauss(nm);
 [d n] = size(data);
-nb_iter = 40;
+nb_iter = 400;
 models = cell(nm, 1);
 
 model = cell(1, 3);
@@ -10,12 +10,13 @@ for i = 1:nm
     model{i, 1} = 1 / nm;
     % The mu params of this model
     model{i, 2} = rand(d, 1);
+    model{i, 2} = data(:, i);
     model{i, 3} = eye(d);
 end
 
 % Normalize data
-data = data - repmat(mean(data, 2), 1, n);
-data = data ./ repmat(std(data, 1, 2), 1, n);
+% data = data - repmat(mean(data, 2), 1, n);
+% data = data ./ repmat(std(data, 1, 2), 1, n);
 figure;
 for i = 1:nb_iter
     clf;

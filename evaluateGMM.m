@@ -1,7 +1,5 @@
-function res = evaluateGMM(tests, test_label, models, med, sd)
+function res = evaluateGMM(tests, test_label, models)
 [d n] = size(tests);
-tests = tests - repmat(med, 1, n);
-tests = tests ./ repmat(sd, 1, n);
 
 nc = length(models);
 

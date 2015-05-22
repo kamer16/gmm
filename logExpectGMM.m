@@ -20,12 +20,18 @@ k = max(max(pl)); % or k = max(Pl,2) to be even more precise
 % Center proba
 pl = pl - k;
 % log(k) * log p(xi)
+
 sumligne = log(sum(exp(pl), 2));
-sumligne(find(sumligne == -Inf)) = Inf;
-disp(sprintf('%f', sum((sumligne == Inf))));
-sumligne(find(sumligne == Inf)) = min(sumligne);
+
+% Points that were captured by no gaussian are affected uniformily to each
+% gaussian
+idx = find(sumligne == -Inf);
+sumligne(idx) =  log(1 / n);
+pl(idx, :) = log(1 / (n*m));
+
+
 pl = exp(pl - repmat(sumligne(:), 1, m));
 % Now add n * k as in was substracted n times previously
 lk = sum(sumligne) + n * k;
-disp(sprintf('loglikelihood: %f', lk));
+disp(sprintf('loglikelihood: %f, out of range: %f', lk, length(idx)));
 end

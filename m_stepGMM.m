@@ -18,12 +18,12 @@ for i = 1:m
     k = repmat(pl(:, i)', d, 1) .* ctr;
     model_i_1{i, 3} = k * ctr' / spl(i);
     % TODO
-    model_i_1{i, 3} = eye(d);
+    %model_i_1{i, 3} = eye(d);
 
     %if model_i_1{i, 1} <= 1 / (100 * m)
     %    alpha = model_i{mod, 1};
     %    model_i_1{i, 2} = (1 - alpha) * model_i_1{i, 2} + alpha * model_i{mod, 2};
-    end
+end
     %max_mu = 1 - 1e-10;
     %min_mu = 1e-10;
     %ind = find(model_i_1{i, 2} >= max_mu);
